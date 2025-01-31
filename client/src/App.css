@@ -42,21 +42,22 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: #121212;
+  color: #ffffff;
 }
 
 .login-box {
-  background: white;
+  background: #1e1e1e;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   width: 100%;
   max-width: 400px;
 }
 
 h1 {
   text-align: center;
-  color: #1e3c72;
+  color: #ffffff;
   margin-bottom: 2rem;
 }
 
@@ -67,15 +68,21 @@ h1 {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #333;
   border-radius: 5px;
   font-size: 16px;
+  background: #2c2c2c;
+  color: #ffffff;
+}
+
+input::placeholder {
+  color: #888;
 }
 
 button {
   width: 100%;
   padding: 12px;
-  background: #1e3c72;
+  background: #6200ea;
   color: white;
   border: none;
   border-radius: 5px;
@@ -85,7 +92,7 @@ button {
 }
 
 button:hover {
-  background: #2a5298;
+  background: #3700b3;
 }
 
 .register-link {
@@ -94,7 +101,7 @@ button:hover {
 }
 
 .register-link a {
-  color: #1e3c72;
+  color: #bb86fc;
   text-decoration: none;
 }
 
