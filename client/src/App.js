@@ -1,44 +1,39 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Login';
+import Register from './components/Register';
+import HomePage from './components/HomePage';
 import './App.css';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Gérer la connexion ici
-    console.log('Login attempt:', username);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUsername('');
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1>CryptoGame</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Nom d'utilisateur"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <input
-              type="password"
-              placeholder="Mot de passe"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit">Se connecter</button>
-        </form>
-        <p className="register-link">
-          Pas encore de compte? <a href="/register">S'inscrire</a>
-        </p>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={
+          !isAuthenticated 
+            ? <Login onLogin={(user) => {
+                setIsAuthenticated(true);
+                setUsername(user);
+              }} />
+            : <Navigate to="/home" />
+        } />
+        <Route path="/home" element={
+          isAuthenticated 
+            ? <HomePage username={username} onLogout={handleLogout} />
+            : <Navigate to="/login" />
+        } />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 }
 
