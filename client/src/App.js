@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Register from './components/Register';
 import HomePage from './components/HomePage';
+import Market from './components/Market';
 import './App.css';
 
 function App() {
@@ -32,6 +33,11 @@ function App() {
         } />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/market" element={
+          isAuthenticated 
+            ? <Market />
+            : <Navigate to="/login" />
+        } />
       </Routes>
     </Router>
   );
