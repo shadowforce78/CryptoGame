@@ -1,136 +1,272 @@
+/* Variables globales */
+:root {
+  --primary-color: #8884d8;
+  --background-dark: #1a1a1a;
+  --background-darker: #141414;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --border-color: #333333;
+  --success-color: #00c853;
+  --error-color: #ff1744;
+  --hover-color: #252525;
+  --transition-speed: 0.3s;
+}
+
+/* Container principal */
 .market-container {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  min-height: 100vh;
+  background: var(--background-darker);
 }
 
+/* En-tête du marché */
 .market-content h1 {
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
+/* Grille des cryptos */
 .crypto-grid {
-  background: #1a1a1a;
-  border-radius: 8px;
+  background: var(--background-dark);
+  border-radius: 12px;
   padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
+/* En-tête de la grille */
 .crypto-header {
   display: grid;
   grid-template-columns: 0.5fr 2fr 1fr 1fr;
-  padding: 1rem;
-  border-bottom: 1px solid #333;
+  padding: 1.2rem 1rem;
+  border-bottom: 2px solid var(--border-color);
   font-weight: bold;
-  color: #888;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
 }
 
+/* Items de crypto */
 .crypto-item {
   display: grid;
   grid-template-columns: 0.5fr 2fr 1fr 1fr;
-  padding: 1rem;
-  border-bottom: 1px solid #222;
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid var(--border-color);
   align-items: center;
-  transition: background-color 0.2s;
+  transition: all var(--transition-speed) ease;
+  cursor: pointer;
 }
 
 .crypto-item:hover {
-  background-color: #252525;
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
 }
 
+.crypto-item:active {
+  transform: translateY(0);
+}
+
+/* Rang */
+.rank {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Nom et symbole */
 .name {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .symbol {
   font-weight: bold;
-  color: #fff;
+  color: var(--text-primary);
+  font-size: 1.1rem;
 }
 
 .full-name {
-  color: #888;
-  font-size: 0.9em;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
+/* Prix */
 .price {
-  color: #fff;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Changement de prix */
+.change {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  width: fit-content;
 }
 
 .change.positive {
-  color: #00ff00;
+  color: var(--success-color);
+  background: rgba(0, 200, 83, 0.1);
 }
 
 .change.negative {
-  color: #ff0000;
+  color: var(--error-color);
+  background: rgba(255, 23, 68, 0.1);
 }
 
+/* États de chargement et d'erreur */
 .loading, .error {
   text-align: center;
-  padding: 2rem;
-  color: #fff;
+  padding: 3rem;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  background: var(--background-dark);
+  border-radius: 12px;
+  margin-top: 2rem;
 }
 
+.error {
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+}
+
+/* Overlay du graphique */
 .chart-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
 }
 
+/* Container du graphique */
 .chart-container {
-  background: #1a1a1a;
+  background: var(--background-dark);
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 12px;
   width: 90%;
-  max-width: 800px;
+  max-width: 1000px;
   position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.3s ease;
 }
 
+/* Bouton de fermeture */
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 24px;
   cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-speed);
 }
 
-.chart-loading {
-  color: #fff;
-  text-align: center;
-  padding: 2rem;
+.close-button:hover {
+  background-color: var(--hover-color);
 }
 
+/* Titre du graphique */
 .chart-container h2 {
-  color: #fff;
-  margin-bottom: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
   text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
+/* Tooltip personnalisé */
 .custom-tooltip {
-  background: rgba(26, 26, 26, 0.95);
-  border: 1px solid #333;
-  padding: 10px;
-  border-radius: 4px;
-  color: #fff;
+  background: var(--background-dark);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .custom-tooltip .time {
   margin: 0;
-  color: #888;
-  font-size: 0.9em;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .custom-tooltip .price {
   margin: 5px 0 0;
   font-weight: bold;
-  color: #8884d8;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .market-container {
+    padding: 1rem;
+  }
+
+  .crypto-header, .crypto-item {
+    grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
+    font-size: 0.9rem;
+  }
+
+  .chart-container {
+    width: 95%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .crypto-header, .crypto-item {
+    grid-template-columns: 0.5fr 2fr 1fr;
+  }
+
+  .change {
+    display: none;
+  }
+
+  .market-content h1 {
+    font-size: 1.8rem;
+  }
 }
