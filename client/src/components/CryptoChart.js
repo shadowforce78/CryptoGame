@@ -7,6 +7,27 @@ const CryptoChart = ({ cryptoId, onClose }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const formatPrice = (value) => {
+    if (value >= 100000) {
+      return `$${(value / 1000).toFixed(1)}k`;
+    }
+    return `$${parseFloat(value).toFixed(2)}`;
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip">
+          <p className="time">{label}</p>
+          <p className="price">
+            Prix: {formatPrice(payload[0].value)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   useEffect(() => {
     const fetchHistoryData = async () => {
       try {
@@ -14,7 +35,7 @@ const CryptoChart = ({ cryptoId, onClose }) => {
         const result = await response.json();
         const formattedData = result.data.map(item => ({
           time: new Date(item.time).toLocaleTimeString(),
-          price: parseFloat(item.priceUsd).toFixed(2)
+          price: parseFloat(item.priceUsd)
         }));
         setData(formattedData);
         setLoading(false);
@@ -37,10 +58,23 @@ const CryptoChart = ({ cryptoId, onClose }) => {
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="price" stroke="#8884d8" />
+            <XAxis 
+              dataKey="time"
+              interval="preserveStartEnd"
+              tickFormatter={(time) => time.split(' ')[0]}
+            />
+            <YAxis 
+              tickFormatter={formatPrice}
+              domain={['auto', 'auto']}
+              scale="linear"
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Line 
+              type="monotone" 
+              dataKey="price" 
+              stroke="#8884d8"
+              dot={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
