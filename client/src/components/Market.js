@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CryptoChart from './CryptoChart';
 import './Market.css';
 
 const Market = () => {
+    const navigate = useNavigate();
     const [cryptos, setCryptos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -32,7 +34,12 @@ const Market = () => {
     return (
         <div className="market-container">
             <div className="market-content">
-                <h1>Crypto Market</h1>
+                <div className="market-header">
+                    <button className="back-button" onClick={() => navigate('/')}>
+                        ← Retour au menu
+                    </button>
+                    <h1>Crypto Market</h1>
+                </div>
                 <div className="crypto-grid">
                     <div className="crypto-header">
                         <span>Rang</span>

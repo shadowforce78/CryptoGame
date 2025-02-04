@@ -2,7 +2,7 @@
 :root {
   --primary-color: #8884d8;
   --background-dark: #1a1a1a;
-  --background-darker: #141414;
+  --background-darker: #121212;  /* Modifié pour correspondre à la HomePage */
   --text-primary: #ffffff;
   --text-secondary: #888888;
   --border-color: #333333;
@@ -21,7 +21,53 @@
   background: var(--background-darker);
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-darker);
+}
+
 /* En-tête du marché */
+.market-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  position: relative;
+  min-height: 60px;
+  width: 100%;
+}
+
+.market-header h1 {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--primary-color);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color var(--transition-speed);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  background-color: #7571c2;
+}
+
 .market-content h1 {
   color: var(--text-primary);
   margin-bottom: 2rem;
@@ -39,6 +85,7 @@
   padding: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  margin-top: 1rem;
 }
 
 /* En-tête de la grille */
@@ -48,10 +95,14 @@
   padding: 1.2rem 1rem;
   border-bottom: 2px solid var(--border-color);
   font-weight: bold;
-  color: var(--text-secondary);
+  color: var (--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--background-dark);
 }
 
 /* Items de crypto */
@@ -63,6 +114,7 @@
   align-items: center;
   transition: all var(--transition-speed) ease;
   cursor: pointer;
+  min-height: 70px;
 }
 
 .crypto-item:hover {
@@ -249,11 +301,30 @@
   .crypto-header, .crypto-item {
     grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
     font-size: 0.9rem;
+    padding: 1rem 0.8rem;
   }
 
   .chart-container {
     width: 95%;
     padding: 1rem;
+  }
+
+  .market-header {
+    flex-direction: column;
+    min-height: auto;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .back-button {
+    position: relative;
+    transform: none;
+    top: 0;
+    align-self: flex-start;
+  }
+
+  .market-header h1 {
+    font-size: 2rem;
   }
 }
 
@@ -268,5 +339,13 @@
 
   .market-content h1 {
     font-size: 1.8rem;
+  }
+
+  .market-header {
+    margin-bottom: 2rem;
+  }
+
+  .crypto-item {
+    min-height: 60px;
   }
 }
