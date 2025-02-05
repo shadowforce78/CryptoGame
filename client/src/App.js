@@ -9,11 +9,11 @@ import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(null);
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setUsername('');
+    setUser(null);
   };
 
   return (
@@ -21,15 +21,15 @@ function App() {
       <Routes>
         <Route path="/login" element={
           !isAuthenticated 
-            ? <Login onLogin={(user) => {
+            ? <Login onLogin={(userData) => {
                 setIsAuthenticated(true);
-                setUsername(user);
+                setUser(userData);
               }} />
             : <Navigate to="/home" />
         } />
         <Route path="/home" element={
           isAuthenticated 
-            ? <HomePage username={username} onLogout={handleLogout} />
+            ? <HomePage username={user.username} onLogout={handleLogout} />
             : <Navigate to="/login" />
         } />
         <Route path="/" element={<Navigate to="/login" />} />
@@ -43,7 +43,7 @@ function App() {
           path="/profile" 
           element={
             isAuthenticated 
-              ? <Profile user={username} />
+              ? <Profile user={user} />
               : <Navigate to="/login" />
           } 
         />

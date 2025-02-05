@@ -5,19 +5,32 @@ import './Profile.css';
 const Profile = ({ user }) => {
     const navigate = useNavigate();
 
-    // Mock data - À remplacer par les vraies données de l'utilisateur
-    const userInfo = {
-        username: user?.username || "User",
-        email: "user@example.com",
-        wallet: {
-            USD: 10000,
-            BTC: 0.5,
-            ETH: 2.0
-        },
-        joinDate: "2023-01-01",
-        totalTrades: 42,
-        profitLoss: "+15.5%"
+    const calculateProfitLoss = (trades) => {
+        if (!trades || trades.length === 0) return "+0%";
+        
+        let totalInvestment = 0;
+        let currentValue = 0;
+        
+        trades.forEach(trade => {
+            if (trade.type === 'buy') {
+                totalInvestment += trade.amount * trade.price;
+            } else {
+                currentValue += trade.amount * trade.price;
+            }
+        });
+
+        const profitLoss = ((currentValue - totalInvestment) / totalInvestment) * 100;
+        return `${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)}%`;
     };
+
+    // Vérification si l'utilisateur ou ses données sont undefined
+    if (!user) {
+        return (
+            <div className="loading" role="alert">
+                Chargement des données utilisateur...
+            </div>
+        );
+    }
 
     return (
         <main className="profile-container">
@@ -38,15 +51,15 @@ const Profile = ({ user }) => {
                     <div className="info-grid">
                         <div className="info-item">
                             <label>Nom d'utilisateur</label>
-                            <span>{userInfo.username}</span>
+                            <span>{user.username || 'N/A'}</span>
                         </div>
                         <div className="info-item">
                             <label>Email</label>
-                            <span>{userInfo.email}</span>
+                            <span>{user.email || 'N/A'}</span>
                         </div>
                         <div className="info-item">
                             <label>Date d'inscription</label>
-                            <span>{userInfo.joinDate}</span>
+                            <span>{user.joinDate ? new Date(user.joinDate).toLocaleDateString() : 'N/A'}</span>
                         </div>
                     </div>
                 </section>
@@ -54,12 +67,26 @@ const Profile = ({ user }) => {
                 <section className="wallet-section">
                     <h2>Porte-monnaie</h2>
                     <div className="wallet-grid">
-                        {Object.entries(userInfo.wallet).map(([currency, amount]) => (
-                            <div key={currency} className="wallet-item">
-                                <label>{currency}</label>
-                                <span>{amount.toFixed(2)}</span>
+                        {user.wallet ? (
+                            <>
+                                <div className="wallet-item">
+                                    <label>USD</label>
+                                    <span>${Number(user.wallet.USD).toFixed(2)}</span>
+                                </div>
+                                <div className="wallet-item">
+                                    <label>Bitcoin (BTC)</label>
+                                    <span>{Number(user.wallet.BTC).toFixed(8)}</span>
+                                </div>
+                                <div className="wallet-item">
+                                    <label>Ethereum (ETH)</label>
+                                    <span>{Number(user.wallet.ETH).toFixed(8)}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="wallet-item">
+                                <span>Aucune donnée disponible</span>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </section>
 
@@ -68,12 +95,20 @@ const Profile = ({ user }) => {
                     <div className="stats-grid">
                         <div className="stats-item">
                             <label>Trades totaux</label>
-                            <span>{userInfo.totalTrades}</span>
+                            <span>{user.trades?.length || 0}</span>
                         </div>
                         <div className="stats-item">
                             <label>Profit/Perte</label>
-                            <span className={userInfo.profitLoss.startsWith('+') ? 'positive' : 'negative'}>
-                                {userInfo.profitLoss}
+                            <span className={calculateProfitLoss(user.trades).startsWith('+') ? 'positive' : 'negative'}>
+                                {calculateProfitLoss(user.trades)}
+                            </span>
+                        </div>
+                        <div className="stats-item">
+                            <label>Dernier trade</label>
+                            <span>
+                                {user.trades && user.trades.length > 0
+                                    ? new Date(user.trades[user.trades.length - 1].date).toLocaleDateString()
+                                    : 'Aucun trade'}
                             </span>
                         </div>
                     </div>
@@ -82,4 +117,5 @@ const Profile = ({ user }) => {
         </main>
     );
 };
+
 export default Profile;
