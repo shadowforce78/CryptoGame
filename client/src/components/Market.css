@@ -10,6 +10,8 @@
   --error-color: #ff1744;
   --hover-color: #252525;
   --transition-speed: 0.3s;
+  --focus-outline: 3px solid #4a90e2;
+  --min-touch-target: 44px;
 }
 
 /* Container principal */
@@ -29,27 +31,25 @@ body {
 
 /* En-tête du marché */
 .market-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  justify-content: center;
+  gap: 2rem;
   margin-bottom: 2rem;
-  position: relative;
-  min-height: 60px;
   width: 100%;
 }
 
 .market-header h1 {
   margin: 0;
   text-align: center;
-  width: 100%;
+  justify-self: center;
+  grid-column: 2;
 }
 
 .back-button {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+  position: relative; /* Changé de absolute à relative */
+  grid-column: 1;
+  /* Suppression des propriétés de positionnement absolu */
   padding: 0.8rem 1.2rem;
   background-color: var(--primary-color);
   color: var(--text-primary);
@@ -62,10 +62,17 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: var(--min-touch-target);
+  min-width: var(--min-touch-target);
 }
 
 .back-button:hover {
   background-color: #7571c2;
+}
+
+.back-button:focus {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
 }
 
 .market-content h1 {
@@ -95,7 +102,7 @@ body {
   padding: 1.2rem 1rem;
   border-bottom: 2px solid var(--border-color);
   font-weight: bold;
-  color: var (--text-secondary);
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 0.9rem;
@@ -109,12 +116,17 @@ body {
 .crypto-item {
   display: grid;
   grid-template-columns: 0.5fr 2fr 1fr 1fr;
-  padding: 1.2rem 1rem;
+  padding: 1.2rem;
   border-bottom: 1px solid var(--border-color);
   align-items: center;
   transition: all var(--transition-speed) ease;
   cursor: pointer;
-  min-height: 70px;
+  min-height: var(--min-touch-target);
+  outline: none;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
 }
 
 .crypto-item:hover {
@@ -124,6 +136,18 @@ body {
 
 .crypto-item:active {
   transform: translateY(0);
+}
+
+.crypto-item:focus {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.crypto-item:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Rang */
@@ -143,19 +167,23 @@ body {
 .symbol {
   font-weight: bold;
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .full-name {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
 /* Prix */
 .price {
   color: var(--text-primary);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
 }
 
 /* Changement de prix */
@@ -168,13 +196,13 @@ body {
 }
 
 .change.positive {
-  color: var(--success-color);
-  background: rgba(0, 200, 83, 0.1);
+  color: #00e676; /* Vert plus clair pour meilleur contraste */
+  background: rgba(0, 230, 118, 0.15);
 }
 
 .change.negative {
-  color: var(--error-color);
-  background: rgba(255, 23, 68, 0.1);
+  color: #ff4081; /* Rouge plus clair pour meilleur contraste */
+  background: rgba(255, 64, 129, 0.15);
 }
 
 /* États de chargement et d'erreur */
@@ -238,6 +266,8 @@ body {
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-speed);
+  min-width: var(--min-touch-target);
+  min-height: var(--min-touch-target);
 }
 
 .close-button:hover {
@@ -310,21 +340,19 @@ body {
   }
 
   .market-header {
+    display: flex;
     flex-direction: column;
-    min-height: auto;
+    align-items: flex-start;
     gap: 1.5rem;
     margin-bottom: 2.5rem;
   }
 
-  .back-button {
-    position: relative;
-    transform: none;
-    top: 0;
-    align-self: flex-start;
+  .market-header h1 {
+    width: 100%;
   }
 
-  .market-header h1 {
-    font-size: 2rem;
+  .back-button {
+    align-self: flex-start;
   }
 }
 
@@ -347,5 +375,13 @@ body {
 
   .crypto-item {
     min-height: 60px;
+  }
+}
+
+/* Support mode haut contraste */
+@media (forced-colors: active) {
+  .crypto-item:focus,
+  .back-button:focus {
+    outline: 2px solid ButtonText;
   }
 }
