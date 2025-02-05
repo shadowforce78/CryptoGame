@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import HomePage from './components/HomePage';
 import Market from './components/Market';
+import Profile from './components/Profile';
 import './App.css';
 
 function App() {
@@ -38,6 +39,14 @@ function App() {
             ? <Market />
             : <Navigate to="/login" />
         } />
+        <Route 
+          path="/profile" 
+          element={
+            isAuthenticated 
+              ? <Profile user={username} />
+              : <Navigate to="/login" />
+          } 
+        />
       </Routes>
     </Router>
   );

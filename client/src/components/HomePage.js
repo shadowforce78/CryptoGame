@@ -13,11 +13,16 @@ const HomePage = ({ username, onLogout }) => {
     navigate('/settings');
   };
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
     <div className="home-container">
       <div className="button-group">
         <h1>Welcome {username}</h1>
         <button onClick={handleMarketClick}>Enter in the market</button>
+        <button onClick={handleProfileClick}>Profile</button>
         <button onClick={handleSettingsClick}>Settings</button>
         <button onClick={onLogout}>LogOut</button>
       </div>
